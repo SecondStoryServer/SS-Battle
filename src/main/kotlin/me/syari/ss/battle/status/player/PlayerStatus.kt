@@ -10,8 +10,15 @@ import org.bukkit.OfflinePlayer
 class PlayerStatus : EntityStatus {
     private val statusChangeList = mutableMapOf<StatusChange.Cause, MutableList<StatusChange>>()
 
+    /**
+     * ダメージの属性
+     */
     override var damageElementType: ElementType? = null
 
+    /**
+     * ステータスマップの取得
+     * @return [Map]<[StatusType], [Float]>
+     */
     override fun get(): Map<StatusType, Float> {
         val status = defaultStatus.toMutableMap()
         val multi = mutableMapOf<StatusType, Float>()
@@ -46,14 +53,33 @@ class PlayerStatus : EntityStatus {
         }?.let { data.removeTask.add(it) }
     }
 
+    /**
+     * ステータス変動の追加
+     * @param cause 変動元
+     * @param statusType ステータスの種類
+     * @param value 変動する値
+     * @param changeType 足し算か掛け算か
+     */
     fun add(cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type) {
         add(cause, StatusChange(statusType, value, changeType))
     }
 
+    /**
+     * 時限的なステータス変動の追加
+     * @param cause 変動元
+     * @param statusType ステータスの種類
+     * @param value 変動する値
+     * @param changeType 足し算か掛け算か
+     * @param effectTime 効果時間
+     */
     fun add(cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type, effectTime: Int) {
         add(cause, StatusChange(statusType, value, changeType), effectTime)
     }
 
+    /**
+     * 指定変動元の効果消去
+     * @param cause 変動元
+     */
     fun clear(cause: StatusChange.Cause) {
         statusChangeList[cause]?.forEach { it.cancelAllTask() }
         statusChangeList.clear()
@@ -70,6 +96,9 @@ class PlayerStatus : EntityStatus {
 
         private val statusMap = mutableMapOf<UUIDPlayer, PlayerStatus>()
 
+        /**
+         * プレイヤーのステータス
+         */
         val OfflinePlayer.status
             get(): PlayerStatus {
                 val uuidPlayer = UUIDPlayer(this)

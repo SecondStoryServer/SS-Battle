@@ -6,6 +6,12 @@ import me.syari.ss.battle.status.player.StatusType
 import kotlin.random.Random
 
 object DamageCalculator {
+    /**
+     * ダメージを計算します
+     * @param attacker ダメージを与えるエンティティのステータス
+     * @param victim ダメージを受けるエンティティのステータス
+     * @return [Float]
+     */
     fun getDamage(attacker: EntityStatus, victim: EntityStatus): Float {
         val damageElementType = attacker.damageElementType
         val attackerStatus = victim.get()

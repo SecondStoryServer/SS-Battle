@@ -1,5 +1,9 @@
 package me.syari.ss.battle.equipment
 
+/**
+ * 属性
+ * (火・水・木・聖・闇)
+ */
 enum class ElementType(val display: String) {
     Fire("&c火"),
     Water("&b水"),
@@ -24,6 +28,11 @@ enum class ElementType(val display: String) {
             )
         }
 
+        /**
+         * 防御時の属性相性を取得します
+         * @param attack 攻撃側の属性
+         * @param defense 防御側の属性
+         */
         fun getDefenseRate(attack: ElementType, defense: ElementType): Float {
             return elementEffect.getOrDefault(attack to defense, 1.0F)
         }

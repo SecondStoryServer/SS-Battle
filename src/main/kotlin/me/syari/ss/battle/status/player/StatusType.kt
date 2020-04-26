@@ -2,6 +2,9 @@ package me.syari.ss.battle.status.player
 
 import me.syari.ss.battle.equipment.ElementType
 
+/**
+ * ステータスの種類
+ */
 sealed class StatusType(val display: String) {
     object BaseAttack : StatusType("攻撃力")
     object BaseDefense : StatusType("防御力")
