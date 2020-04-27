@@ -10,7 +10,7 @@ data class StatusChange(
         val value: Float,
         val changeType: Type
 ) {
-    internal  val removeTask = mutableSetOf<CustomTask>()
+    internal val removeTask = mutableSetOf<CustomTask>()
 
     internal fun cancelAllTask() {
         removeTask.forEach {

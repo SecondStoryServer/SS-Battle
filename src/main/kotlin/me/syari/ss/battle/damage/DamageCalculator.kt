@@ -19,7 +19,7 @@ object DamageCalculator {
         var damage = if (damageElementType != null) {
             getAttack(damageElementType, attackerStatus) - getDefense(damageElementType, victimStatus)
         } else {
-            getAttack(attackerStatus) ?: 0F
+            getBaseAttack(attackerStatus)
         }
         return if (0F < damage) {
             attackerStatus[StatusType.CriticalChance]?.let { chance ->
@@ -48,18 +48,15 @@ object DamageCalculator {
         return defense / 5F
     }
 
-    private fun getAttack(attackerStatus: Map<StatusType, Float>): Float? {
-        return attackerStatus[StatusType.BaseAttack]
+    private fun getBaseAttack(attackerStatus: Map<StatusType, Float>): Float {
+        return attackerStatus.getOrDefault(StatusType.BaseAttack, 0F)
+    }
+
+    private fun getElementAttack(attackerStatus: Map<StatusType, Float>, elementType: ElementType): Float {
+        return attackerStatus.getOrDefault(StatusType.ElementAttack(elementType), 0F)
     }
 
     private fun getAttack(damageElementType: ElementType, attackerStatus: Map<StatusType, Float>): Float {
-        var attack = 0F
-        getAttack(attackerStatus)?.let {
-            attack += it
-        }
-        attackerStatus[StatusType.ElementAttack(damageElementType)]?.let {
-            attack += it
-        }
-        return attack / 2F
+        return getBaseAttack(attackerStatus) + getElementAttack(attackerStatus, damageElementType)
     }
 }
