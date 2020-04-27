@@ -45,7 +45,7 @@ object DamageCalculator {
                 defense += value
             }
         }
-        return defense / 5F
+        return defense
     }
 
     private fun getBaseAttack(attackerStatus: Map<StatusType, Float>): Float {
