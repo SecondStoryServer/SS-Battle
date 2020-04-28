@@ -42,17 +42,6 @@ class PlayerStatus : EntityStatus {
         return status
     }
 
-    private fun add(cause: StatusChange.Cause, data: StatusChange) {
-        statusChangeList.getOrPut(cause) { mutableListOf() }.add(data)
-    }
-
-    private fun add(cause: StatusChange.Cause, data: StatusChange, effectTime: Int) {
-        add(cause, data)
-        runLater(battlePlugin, effectTime.toLong()) {
-            statusChangeList[cause]?.remove(data)
-        }?.let { data.removeTask.add(it) }
-    }
-
     /**
      * ステータス変動の追加
      * @param cause 変動元
@@ -61,7 +50,8 @@ class PlayerStatus : EntityStatus {
      * @param changeType 足し算か掛け算か
      */
     fun add(cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type) {
-        add(cause, StatusChange(statusType, value, changeType))
+        val data = StatusChange(statusType, value, changeType)
+        statusChangeList.getOrPut(cause) { mutableListOf() }.add(data)
     }
 
     /**
@@ -73,7 +63,11 @@ class PlayerStatus : EntityStatus {
      * @param effectTime 効果時間
      */
     fun add(cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type, effectTime: Int) {
-        add(cause, StatusChange(statusType, value, changeType), effectTime)
+        add(cause, statusType, value, changeType)
+        val data = StatusChange(statusType, value, changeType)
+        runLater(battlePlugin, effectTime.toLong()) {
+            statusChangeList[cause]?.remove(data)
+        }?.let { data.removeTask.add(it) }
     }
 
     /**
