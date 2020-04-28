@@ -7,7 +7,7 @@ interface EntityStatus {
     /**
      * ダメージの属性
      */
-    var damageElementType: ElementType?
+    val damageElementType: ElementType?
 
     /**
      * ステータスマップの取得

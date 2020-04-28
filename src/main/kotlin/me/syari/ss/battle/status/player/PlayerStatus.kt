@@ -3,11 +3,13 @@ package me.syari.ss.battle.status.player
 import me.syari.ss.battle.Main.Companion.battlePlugin
 import me.syari.ss.battle.equipment.ElementType
 import me.syari.ss.battle.status.EntityStatus
+import me.syari.ss.battle.status.player.event.StatusChangeAddEvent
+import me.syari.ss.battle.status.player.event.StatusChangeClearEvent
 import me.syari.ss.core.player.UUIDPlayer
 import me.syari.ss.core.scheduler.CustomScheduler.runLater
 import org.bukkit.OfflinePlayer
 
-class PlayerStatus : EntityStatus {
+class PlayerStatus(val uuidPlayer: UUIDPlayer): EntityStatus {
     private val statusChangeList = mutableMapOf<StatusChange.Cause, MutableList<StatusChange>>()
 
     /**
@@ -52,6 +54,7 @@ class PlayerStatus : EntityStatus {
     fun add(cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type) {
         val data = StatusChange(statusType, value, changeType)
         statusChangeList.getOrPut(cause) { mutableListOf() }.add(data)
+        StatusChangeAddEvent(uuidPlayer, this, data).callEvent()
     }
 
     /**
@@ -62,7 +65,9 @@ class PlayerStatus : EntityStatus {
      * @param changeType 足し算か掛け算か
      * @param effectTime 効果時間
      */
-    fun add(cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type, effectTime: Int) {
+    fun add(
+        cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type, effectTime: Int
+    ) {
         add(cause, statusType, value, changeType)
         val data = StatusChange(statusType, value, changeType)
         runLater(battlePlugin, effectTime.toLong()) {
@@ -75,17 +80,28 @@ class PlayerStatus : EntityStatus {
      * @param cause 変動元
      */
     fun clear(cause: StatusChange.Cause) {
-        statusChangeList[cause]?.forEach { it.cancelAllTask() }
+        statusChangeList[cause]?.let { list ->
+            list.forEach { it.cancelAllTask() }
+            list.clear()
+        }
+        StatusChangeClearEvent(uuidPlayer, this, cause).callEvent()
+    }
+
+    /**
+     * 全ての効果消去
+     */
+    fun clear() {
         statusChangeList.clear()
+        StatusChangeClearEvent(uuidPlayer, this, null).callEvent()
     }
 
     companion object {
         private val defaultStatus = mapOf(
-                StatusType.BaseAttack to 1F,
-                StatusType.MaxDamage to 1F,
-                StatusType.MaxHealth to 20F,
-                StatusType.RegenHealth to 1F,
-                StatusType.MoveSpeed to 0.2F
+            StatusType.BaseAttack to 1F,
+            StatusType.MaxDamage to 1F,
+            StatusType.MaxHealth to 20F,
+            StatusType.RegenHealth to 1F,
+            StatusType.MoveSpeed to 0.2F
         )
 
         private val statusMap = mutableMapOf<UUIDPlayer, PlayerStatus>()
@@ -96,7 +112,7 @@ class PlayerStatus : EntityStatus {
         val OfflinePlayer.status
             get(): PlayerStatus {
                 val uuidPlayer = UUIDPlayer(this)
-                return statusMap.getOrPut(uuidPlayer) { PlayerStatus() }
+                return statusMap.getOrPut(uuidPlayer) { PlayerStatus(uuidPlayer) }
             }
     }
 }

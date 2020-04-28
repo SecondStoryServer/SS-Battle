@@ -6,9 +6,7 @@ import me.syari.ss.core.scheduler.CustomTask
  * ステータス変動
  */
 data class StatusChange(
-        val statusType: StatusType,
-        val value: Float,
-        val changeType: Type
+    val statusType: StatusType, val value: Float, val changeType: Type
 ) {
     internal val removeTask = mutableSetOf<CustomTask>()
 
@@ -22,11 +20,11 @@ data class StatusChange(
      * 変動元
      */
     enum class Cause {
-        Job,
         Equipment,
         ActiveSkill,
         PassiveSkill,
-        GuildBuff
+        GuildBuff,
+        GlobalBuff
     }
 
     /**

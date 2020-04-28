@@ -14,17 +14,17 @@ enum class ElementType(val display: String) {
     companion object {
         private val elementEffect by lazy {
             mapOf(
-                    Fire to Water to 1.5F,
-                    Fire to Wood to 0.7F,
-                    Water to Wood to 1.5F,
-                    Water to Fire to 0.7F,
-                    Wood to Fire to 1.5F,
-                    Wood to Water to 0.7F,
-                    Dark to Fire to 0.8F,
-                    Dark to Water to 0.8F,
-                    Dark to Wood to 0.8F,
-                    Dark to Holy to 2.0F,
-                    Holy to Dark to 0.5F
+                Fire to Water to 1.5F,
+                Fire to Wood to 0.7F,
+                Water to Wood to 1.5F,
+                Water to Fire to 0.7F,
+                Wood to Fire to 1.5F,
+                Wood to Water to 0.7F,
+                Dark to Fire to 0.8F,
+                Dark to Water to 0.8F,
+                Dark to Wood to 0.8F,
+                Dark to Holy to 2.0F,
+                Holy to Dark to 0.5F
             )
         }
 
