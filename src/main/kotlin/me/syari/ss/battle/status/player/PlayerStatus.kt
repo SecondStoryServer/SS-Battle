@@ -8,8 +8,17 @@ import me.syari.ss.battle.status.player.event.StatusChangeClearEvent
 import me.syari.ss.core.player.UUIDPlayer
 import me.syari.ss.core.scheduler.CustomScheduler.runLater
 import org.bukkit.OfflinePlayer
+import org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH
+import org.bukkit.attribute.AttributeModifier
+import org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER
 
 class PlayerStatus(val uuidPlayer: UUIDPlayer): EntityStatus {
+    val player
+        get() = uuidPlayer.player
+
+    val offlinePlayer
+        get() = uuidPlayer.offlinePlayer
+
     private val statusChangeList = mutableMapOf<StatusChange.Cause, MutableList<StatusChange>>()
 
     /**
@@ -99,6 +108,30 @@ class PlayerStatus(val uuidPlayer: UUIDPlayer): EntityStatus {
         statusChangeList.clear()
         StatusChangeClearEvent(uuidPlayer, this, null).callEvent()
     }
+
+    private var lastChangeHealthModifier: AttributeModifier? = null
+
+    private inline val maxHealthModifier
+        get() = player?.getAttribute(GENERIC_MAX_HEALTH)
+
+    var maxHealth: Double
+        get() = maxHealthModifier?.value ?: defaultStatus.getOrDefault(StatusType.MaxHealth, 1F).toDouble()
+        set(value) {
+            maxHealthModifier?.let { attribute ->
+                lastChangeHealthModifier?.let {
+                    attribute.removeModifier(it)
+                }
+                val changeHealthModifier = AttributeModifier("changeHealth", value, ADD_NUMBER)
+                attribute.addModifier(changeHealthModifier)
+                lastChangeHealthModifier = changeHealthModifier
+            }
+        }
+
+    var health: Double
+        get() = player?.health ?: maxHealth
+        set(value) {
+            player?.health = value
+        }
 
     companion object {
         private val defaultStatus = mapOf(
