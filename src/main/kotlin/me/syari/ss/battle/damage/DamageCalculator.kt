@@ -14,8 +14,8 @@ object DamageCalculator {
      */
     fun getDamage(attacker: EntityStatus, victim: EntityStatus): Float {
         val damageElementType = attacker.damageElementType
-        val attackerStatus = victim.get()
-        val victimStatus = victim.get()
+        val attackerStatus = victim.map
+        val victimStatus = victim.map
         var damage = if (damageElementType != null) {
             getAttack(damageElementType, attackerStatus) - getDefense(damageElementType, victimStatus)
         } else {
