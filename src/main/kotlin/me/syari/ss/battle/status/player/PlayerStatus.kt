@@ -111,13 +111,16 @@ class PlayerStatus(val uuidPlayer: UUIDPlayer): EntityStatus {
 
     private var lastChangeHealthModifier: AttributeModifier? = null
 
-    private inline val maxHealthModifier
+    private inline val maxHealthAttribute
         get() = player?.getAttribute(GENERIC_MAX_HEALTH)
 
+    /**
+     * プレイヤーの最大体力
+     */
     var maxHealth: Double
-        get() = maxHealthModifier?.value ?: defaultStatus.getOrDefault(StatusType.MaxHealth, 1F).toDouble()
+        get() = maxHealthAttribute?.value ?: defaultStatus.getOrDefault(StatusType.MaxHealth, 1F).toDouble()
         set(value) {
-            maxHealthModifier?.let { attribute ->
+            maxHealthAttribute?.let { attribute ->
                 lastChangeHealthModifier?.let {
                     attribute.removeModifier(it)
                 }
@@ -127,10 +130,20 @@ class PlayerStatus(val uuidPlayer: UUIDPlayer): EntityStatus {
             }
         }
 
+    /**
+     * プレイヤーの現在体力
+     */
     var health: Double
         get() = player?.health ?: maxHealth
         set(value) {
-            player?.health = value
+            player?.let {
+                val maxHealth = maxHealth
+                it.health = when {
+                    value < 0 -> 0.0
+                    maxHealth < value -> maxHealth
+                    else -> value
+                }
+            }
         }
 
     companion object {
