@@ -1,11 +1,10 @@
 package me.syari.ss.battle.status.mob
 
 import me.syari.ss.battle.status.EntityStatus
-import me.syari.ss.battle.status.player.StatusType
 import org.bukkit.entity.Entity
 
 class MobStatus(
-    val entity: Entity, private val mobTypeStatus: MobTypeStatus
+    val entity: Entity, mobTypeStatus: MobTypeStatus
 ): EntityStatus {
     /**
      * ダメージの属性
@@ -13,12 +12,9 @@ class MobStatus(
     override val damageElementType = mobTypeStatus.damageElementType
 
     /**
-     * ステータスマップの取得
-     * @return [Map]<[StatusType], [Float]>
+     * ステータスマップ
      */
-    override fun get(): Map<StatusType, Float> {
-        return mobTypeStatus.status
-    }
+    override val map = mobTypeStatus.status
 
     companion object {
         /**

@@ -18,11 +18,16 @@ class PlayerStatus(val uuidPlayer: UUIDPlayer): EntityStatus {
     override var damageElementType: ElementType? = null
 
     /**
+     * ステータスマップ
+     */
+    override var map = mutableMapOf<StatusType, Float>()
+
+    /**
      * ステータスマップの取得
      * @return [Map]<[StatusType], [Float]>
      */
-    override fun get(): Map<StatusType, Float> {
-        val status = defaultStatus.toMutableMap()
+    fun get(): Map<StatusType, Float> {
+        val add = defaultStatus.toMutableMap()
         val multi = mutableMapOf<StatusType, Float>()
         statusChangeList.values.forEach { list ->
             list.forEach { statusChange ->
@@ -31,17 +36,17 @@ class PlayerStatus(val uuidPlayer: UUIDPlayer): EntityStatus {
                 }
 
                 when (statusChange.changeType) {
-                    StatusChange.Type.Add -> status
+                    StatusChange.Type.Add -> add
                     StatusChange.Type.Multi -> multi
                 }.increase(statusChange.statusType, statusChange.value)
             }
         }
         multi.forEach { (type, value) ->
-            status[type]?.let {
-                status[type] = it * (1 + value)
+            add[type]?.let {
+                add[type] = it * (1 + value)
             }
         }
-        return status
+        return add
     }
 
     /**

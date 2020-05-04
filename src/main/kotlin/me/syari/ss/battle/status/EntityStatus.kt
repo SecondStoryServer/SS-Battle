@@ -10,8 +10,7 @@ interface EntityStatus {
     val damageElementType: ElementType?
 
     /**
-     * ステータスマップの取得
-     * @return [Map]<[StatusType], [Float]>
+     * ステータスマップ
      */
-    fun get(): Map<StatusType, Float>
+    val map: Map<StatusType, Float>
 }
