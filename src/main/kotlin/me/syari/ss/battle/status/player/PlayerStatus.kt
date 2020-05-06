@@ -146,6 +146,10 @@ class PlayerStatus(val uuidPlayer: UUIDPlayer, statusChangeList: Map<StatusChang
             }
         }
 
+    /**
+     * ステータスをコピーする
+     * @return [PlayerStatus]
+     */
     fun clone(): PlayerStatus {
         return PlayerStatus(uuidPlayer, statusChangeList.toMap())
     }

@@ -10,7 +10,6 @@ sealed class StatusType(val display: String) {
     object BaseDefense: StatusType("&6防御力")
     data class ElementAttack(val elementType: ElementType): StatusType("&6属性攻撃力≪${elementType.display}&6≫")
     data class ElementDefense(val elementType: ElementType): StatusType("&6属性防御力≪${elementType.display}&6≫")
-    object SkillAttack: StatusType("&6特殊攻撃力")
     object AttackSpeed: StatusType("&6攻撃速度")
     object CriticalChance: StatusType("&6会心率")
     object MaxDamage: StatusType("&6最大ダメージ")
