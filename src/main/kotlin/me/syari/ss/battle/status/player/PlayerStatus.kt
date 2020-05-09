@@ -24,7 +24,7 @@ class PlayerStatus(val uuidPlayer: UUIDPlayer, statusChangeList: Map<StatusChang
     /**
      * ダメージの属性
      */
-    override var damageElementType: ElementType? = null
+    override var damageElementType: ElementType = ElementType.None
 
     /**
      * ステータスマップ

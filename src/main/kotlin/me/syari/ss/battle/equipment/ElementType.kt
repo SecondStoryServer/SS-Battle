@@ -2,14 +2,15 @@ package me.syari.ss.battle.equipment
 
 /**
  * 属性
- * (火・水・木・聖・闇)
+ * (火・水・木・聖・闇, 無)
  */
 enum class ElementType(val display: String) {
     Fire("&c火"),
     Water("&b水"),
     Wood("&a木"),
     Holy("&e聖"),
-    Dark("&d闇");
+    Dark("&d闇"),
+    None("&7無");
 
     companion object {
         private val elementEffect by lazy {

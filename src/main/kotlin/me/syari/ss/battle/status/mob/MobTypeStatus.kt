@@ -7,7 +7,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.metadata.FixedMetadataValue
 
 data class MobTypeStatus(
-    val damageElementType: ElementType?, val status: Map<StatusType, Float>
+    val damageElementType: ElementType, val status: Map<StatusType, Float>
 ) {
     companion object {
         private val statusMap = mutableMapOf<String, MobTypeStatus>()
