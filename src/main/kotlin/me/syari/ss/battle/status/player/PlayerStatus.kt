@@ -12,7 +12,10 @@ import org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER
 
-class PlayerStatus(val uuidPlayer: UUIDPlayer, statusChangeList: Map<StatusChange.Cause, MutableList<StatusChange>>): EntityStatus {
+class PlayerStatus(
+    val uuidPlayer: UUIDPlayer,
+    statusChangeList: Map<StatusChange.Cause, MutableList<StatusChange>>
+): EntityStatus {
     val player
         get() = uuidPlayer.player
 
@@ -169,9 +172,14 @@ class PlayerStatus(val uuidPlayer: UUIDPlayer, statusChangeList: Map<StatusChang
          * プレイヤーのステータス
          */
         val OfflinePlayer.status
-            get(): PlayerStatus {
-                val uuidPlayer = UUIDPlayer(this)
-                return statusMap.getOrPut(uuidPlayer) { PlayerStatus(uuidPlayer, mapOf()) }
-            }
+            get() = from(this)
+
+        /**
+         * プレイヤーのステータスを取得します
+         */
+        fun from(offlinePlayer: OfflinePlayer): PlayerStatus {
+            val uuidPlayer = UUIDPlayer(offlinePlayer)
+            return statusMap.getOrPut(uuidPlayer) { PlayerStatus(uuidPlayer, mapOf()) }
+        }
     }
 }
