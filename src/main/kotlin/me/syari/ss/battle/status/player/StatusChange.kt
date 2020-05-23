@@ -1,5 +1,6 @@
 package me.syari.ss.battle.status.player
 
+import me.syari.ss.battle.status.StatusType
 import me.syari.ss.core.scheduler.CustomTask
 
 /**

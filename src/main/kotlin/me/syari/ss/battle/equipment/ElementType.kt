@@ -1,16 +1,18 @@
 package me.syari.ss.battle.equipment
 
+import org.bukkit.Color
+
 /**
  * 属性
  * (火・水・木・聖・闇, 無)
  */
-enum class ElementType(val display: String) {
-    Fire("&c火"),
-    Water("&b水"),
-    Wood("&a木"),
-    Holy("&e聖"),
-    Dark("&d闇"),
-    None("&7無");
+enum class ElementType(val color: Color, val display: String) {
+    Fire(Color.RED, "&c火"),
+    Water(Color.AQUA, "&b水"),
+    Wood(Color.LIME, "&a木"),
+    Holy(Color.YELLOW, "&e聖"),
+    Dark(Color.PURPLE, "&d闇"),
+    None(Color.GRAY, "&7無");
 
     companion object {
         private val elementEffect by lazy {

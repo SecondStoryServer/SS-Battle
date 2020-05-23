@@ -1,8 +1,8 @@
 package me.syari.ss.battle.damage
 
 import me.syari.ss.battle.equipment.ElementType
-import me.syari.ss.battle.status.EntityStatus
-import me.syari.ss.battle.status.player.StatusType
+import me.syari.ss.battle.status.OnDamageStatus
+import me.syari.ss.battle.status.StatusType
 import kotlin.random.Random
 
 object DamageCalculator {
@@ -12,11 +12,11 @@ object DamageCalculator {
      * @param victim ダメージを受けるエンティティのステータス
      * @return [Float]
      */
-    fun getDamage(attacker: EntityStatus, victim: EntityStatus?): Float {
+    fun getDamage(attacker: OnDamageStatus, victim: OnDamageStatus?): Float {
         val damageElementType = attacker.damageElementType
         val attackerStatus = attacker.map
         val victimStatus = victim?.map
-        var damage = getAttack(damageElementType, attackerStatus) - getDefense(damageElementType, victimStatus)
+        var damage = getAttack(attackerStatus, damageElementType) - getDefense(damageElementType, victimStatus)
         return if (0F < damage) {
             attackerStatus[StatusType.CriticalChance]?.let { chance ->
                 if (Random.nextFloat() < chance) {
@@ -39,22 +39,12 @@ object DamageCalculator {
         victimStatus?.forEach { (type, value) ->
             if (type is StatusType.Defense) {
                 defense += value * ElementType.getDefenseRate(damageElementType, type.elementType)
-            } else if (type is StatusType.BaseDefense) {
-                defense += value
             }
         }
         return defense
     }
 
-    private fun getBaseAttack(attackerStatus: Map<StatusType, Float>): Float {
-        return attackerStatus.getOrDefault(StatusType.BaseAttack, 0F)
-    }
-
     private fun getAttack(attackerStatus: Map<StatusType, Float>, elementType: ElementType): Float {
         return attackerStatus.getOrDefault(StatusType.Attack(elementType), 0F)
-    }
-
-    private fun getAttack(damageElementType: ElementType, attackerStatus: Map<StatusType, Float>): Float {
-        return getBaseAttack(attackerStatus) + getAttack(attackerStatus, damageElementType)
     }
 }

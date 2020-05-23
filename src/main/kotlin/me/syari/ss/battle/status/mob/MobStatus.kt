@@ -1,11 +1,12 @@
 package me.syari.ss.battle.status.mob
 
 import me.syari.ss.battle.status.EntityStatus
+import me.syari.ss.battle.status.OnDamageStatus
 import org.bukkit.entity.Entity
 
 class MobStatus(
     val entity: Entity, mobTypeStatus: MobTypeStatus
-): EntityStatus {
+): EntityStatus, OnDamageStatus {
     /**
      * ダメージの属性
      */

@@ -2,7 +2,7 @@ package me.syari.ss.battle.status.mob
 
 import me.syari.ss.battle.Main
 import me.syari.ss.battle.equipment.ElementType
-import me.syari.ss.battle.status.player.StatusType
+import me.syari.ss.battle.status.StatusType
 import org.bukkit.entity.Entity
 import org.bukkit.metadata.FixedMetadataValue
 
