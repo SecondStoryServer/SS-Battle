@@ -1,6 +1,7 @@
 package me.syari.ss.battle.damage
 
 import me.syari.ss.battle.equipment.ElementType
+import me.syari.ss.battle.status.EntityStatus
 import me.syari.ss.battle.status.OnDamageStatus
 import me.syari.ss.battle.status.StatusType
 import kotlin.random.Random
@@ -12,7 +13,7 @@ object DamageCalculator {
      * @param victim ダメージを受けるエンティティのステータス
      * @return [Float]
      */
-    fun getDamage(attacker: OnDamageStatus, victim: OnDamageStatus?): Float {
+    fun getDamage(attacker: OnDamageStatus, victim: EntityStatus?): Float {
         val damageElementType = attacker.damageElementType
         val attackerStatus = attacker.map
         val victimStatus = victim?.map
