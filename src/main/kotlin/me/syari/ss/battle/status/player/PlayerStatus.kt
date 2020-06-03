@@ -6,7 +6,7 @@ import me.syari.ss.battle.status.EntityStatus
 import me.syari.ss.battle.status.OnDamageStatus
 import me.syari.ss.battle.status.StatusType
 import me.syari.ss.core.player.UUIDPlayer
-import me.syari.ss.core.scheduler.CustomScheduler.runLater
+import me.syari.ss.core.scheduler.CreateScheduler.runLater
 import org.bukkit.OfflinePlayer
 import org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH
 import org.bukkit.attribute.AttributeModifier
