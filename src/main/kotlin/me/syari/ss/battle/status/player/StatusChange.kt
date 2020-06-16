@@ -7,7 +7,9 @@ import me.syari.ss.core.scheduler.CustomTask
  * ステータス変動
  */
 data class StatusChange(
-    val statusType: StatusType, val value: Float, val changeType: Type
+    val statusType: StatusType,
+    val value: Float,
+    val changeType: Type
 ) {
     internal val removeTask = mutableSetOf<CustomTask>()
 

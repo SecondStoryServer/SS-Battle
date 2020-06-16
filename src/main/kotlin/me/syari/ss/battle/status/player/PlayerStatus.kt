@@ -37,7 +37,10 @@ class PlayerStatus(
         val multi = mutableMapOf<StatusType, Float>()
         statusChangeAdd.values.forEach { list ->
             list.forEach { statusChange ->
-                fun MutableMap<StatusType, Float>.increase(type: StatusType, value: Float) {
+                fun MutableMap<StatusType, Float>.increase(
+                    type: StatusType,
+                    value: Float
+                ) {
                     put(type, getOrDefault(type, 0F) + value)
                 }
 
@@ -62,7 +65,12 @@ class PlayerStatus(
      * @param value 変動する値
      * @param changeType 足し算か掛け算か
      */
-    fun add(cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type) {
+    fun add(
+        cause: StatusChange.Cause,
+        statusType: StatusType,
+        value: Float,
+        changeType: StatusChange.Type
+    ) {
         val data = StatusChange(statusType, value, changeType)
         statusChangeAdd.getOrPut(cause) { mutableListOf() }.add(data)
     }
@@ -74,7 +82,12 @@ class PlayerStatus(
      * @param value 変動する値
      * @param changeType 足し算か掛け算か
      */
-    fun add(cause: StatusChange.Cause, statusTypeList: List<StatusType>, value: Float, changeType: StatusChange.Type) {
+    fun add(
+        cause: StatusChange.Cause,
+        statusTypeList: List<StatusType>,
+        value: Float,
+        changeType: StatusChange.Type
+    ) {
         statusTypeList.forEach { statusType ->
             add(cause, statusType, value, changeType)
         }
@@ -89,7 +102,11 @@ class PlayerStatus(
      * @param effectTime 効果時間
      */
     fun add(
-        cause: StatusChange.Cause, statusType: StatusType, value: Float, changeType: StatusChange.Type, effectTime: Int
+        cause: StatusChange.Cause,
+        statusType: StatusType,
+        value: Float,
+        changeType: StatusChange.Type,
+        effectTime: Int
     ) {
         add(cause, statusType, value, changeType)
         val data = StatusChange(statusType, value, changeType)
@@ -108,7 +125,11 @@ class PlayerStatus(
      * @param effectTime 効果時間
      */
     fun add(
-        cause: StatusChange.Cause, statusTypeList: List<StatusType>, value: Float, changeType: StatusChange.Type, effectTime: Int
+        cause: StatusChange.Cause,
+        statusTypeList: List<StatusType>,
+        value: Float,
+        changeType: StatusChange.Type,
+        effectTime: Int
     ) {
         statusTypeList.forEach { statusType ->
             add(cause, statusType, value, changeType, effectTime)
@@ -174,7 +195,10 @@ class PlayerStatus(
      * ダメージ時のステータスを計算する
      * @return [EntityStatus]
      */
-    fun onDamage(damageElementType: ElementType, run: OnDamagePlayerStatus.() -> Unit): OnDamageStatus {
+    fun onDamage(
+        damageElementType: ElementType,
+        run: OnDamagePlayerStatus.() -> Unit
+    ): OnDamageStatus {
         return OnDamagePlayerStatus(this, damageElementType).apply(run)
     }
 
@@ -198,9 +222,7 @@ class PlayerStatus(
 
         init {
             defaultStatus = mutableMapOf(
-                StatusType.MaxDamage to 1F,
-                StatusType.MaxHealth to 20F,
-                StatusType.RegenHealth to 1F
+                StatusType.MaxDamage to 1F, StatusType.MaxHealth to 20F, StatusType.RegenHealth to 1F
             ).apply {
                 StatusType.allAttack.map { put(it, 1F) }
             }

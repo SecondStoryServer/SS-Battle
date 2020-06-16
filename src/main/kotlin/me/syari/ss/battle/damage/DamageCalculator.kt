@@ -13,7 +13,10 @@ object DamageCalculator {
      * @param victim ダメージを受けるエンティティのステータス
      * @return [Float]
      */
-    fun getDamage(attacker: OnDamageStatus, victim: EntityStatus?): Float {
+    fun getDamage(
+        attacker: OnDamageStatus,
+        victim: EntityStatus?
+    ): Float {
         val damageElementType = attacker.damageElementType
         val attackerStatus = attacker.map
         val victimStatus = victim?.map
@@ -35,7 +38,10 @@ object DamageCalculator {
         }
     }
 
-    private fun getDefense(damageElementType: ElementType, victimStatus: Map<StatusType, Float>?): Float {
+    private fun getDefense(
+        damageElementType: ElementType,
+        victimStatus: Map<StatusType, Float>?
+    ): Float {
         var defense = 0F
         victimStatus?.forEach { (type, value) ->
             if (type is StatusType.Defense) {
@@ -45,7 +51,10 @@ object DamageCalculator {
         return defense
     }
 
-    private fun getAttack(attackerStatus: Map<StatusType, Float>, elementType: ElementType): Float {
+    private fun getAttack(
+        attackerStatus: Map<StatusType, Float>,
+        elementType: ElementType
+    ): Float {
         return attackerStatus.getOrDefault(StatusType.Attack(elementType), 0F)
     }
 }

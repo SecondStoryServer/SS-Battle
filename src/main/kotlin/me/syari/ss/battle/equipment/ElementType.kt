@@ -6,7 +6,10 @@ import org.bukkit.Color
  * 属性
  * (火・水・木・聖・闇, 無)
  */
-enum class ElementType(val color: Color, val display: String) {
+enum class ElementType(
+    val color: Color,
+    val display: String
+) {
     Fire(Color.RED, "&c火"),
     Water(Color.AQUA, "&b水"),
     Wood(Color.LIME, "&a木"),
@@ -36,7 +39,10 @@ enum class ElementType(val color: Color, val display: String) {
          * @param attack 攻撃側の属性
          * @param defense 防御側の属性
          */
-        fun getDefenseRate(attack: ElementType, defense: ElementType): Float {
+        fun getDefenseRate(
+            attack: ElementType,
+            defense: ElementType
+        ): Float {
             return elementEffect.getOrDefault(attack to defense, 1.0F)
         }
     }
