@@ -25,8 +25,6 @@ data class StatusChange(
     enum class Cause {
         Equipment,
         ActiveSkill,
-        PassiveSkillMain,
-        PassiveSkillExtra,
         GuildBuff,
         GlobalBuff
     }
